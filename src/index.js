@@ -9,7 +9,8 @@ import registerServiceWorker from './registerServiceWorker';
 import CounterReducer from './store/reducers/counter';
 import ResultReducer from './store/reducers/result';
 import { compose } from 'redux';
-
+import createSagaMiddleware from 'redux-saga';
+import { watchSaga } from './saga';
 
 
 const rootReducer = combineReducers({
@@ -17,19 +18,23 @@ const rootReducer = combineReducers({
     res: ResultReducer
 })
 
-const logging = store => {
-    return next => {
-        return action => {
-            console.log('[Middleware] dispatching', action);
-            const result = next(action);
-            console.log('[Middleware] state', store.getState());
-            return result;
-        }
-    }
-}
+// const logging = store => {
+//     return next => {
+//         return action => {
+//             console.log('[Middleware] dispatching', action);
+//             const result = next(action);
+//             console.log('[Middleware] state', store.getState());
+//             return result;
+//         }
+//     }
+// }
+
+const sagaMiddleware = createSagaMiddleware();
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose //for redux-dev-tools
-const store = createStore(rootReducer, composeEnhancer(applyMiddleware(logging, reduxThunk)));
+const store = createStore(rootReducer, composeEnhancer(applyMiddleware(reduxThunk,sagaMiddleware)));
+
+sagaMiddleware.run(watchSaga);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();

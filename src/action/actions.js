@@ -1,10 +1,10 @@
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
-const ADD5 = 'Add 5';
-const SUB5 = 'Subtract 5';
-const DELVAL = 'Delete Val';
-const STOREVAL = 'Store Value';
-
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+export const ADD5 = 'Add 5';
+export const SUB5 = 'Subtract 5';
+export const DELVAL = 'Delete Val';
+export const STOREVAL = 'Store Value';
+export const TEST_SAGA = 'TEST_SAGA'
 //action creators
 
 export const inc_val = () => {
@@ -41,7 +41,7 @@ export const del_val = (val) => {
 
 const storing_val = (val) => {
     return {
-        type: STOREVAL,
+        type: TEST_SAGA,
         value: val
     }
 }
